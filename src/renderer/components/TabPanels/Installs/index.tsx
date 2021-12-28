@@ -7,7 +7,7 @@ import {
   Tab,
   TabPanel,
 } from '@chakra-ui/react';
-import { InstallData } from 'renderer/common/types';
+import { DialogFileData, InstallData } from 'renderer/common/types';
 import { TabPanelLayout } from '../TabPanelLayout';
 import { InstallsTable } from './InstallsTable';
 
@@ -22,8 +22,20 @@ const SAMPLE_DATA: InstallData[] = [
 export const Installs = (): JSX.Element => {
   const [installs, setInstalls] = useState<InstallData[]>(SAMPLE_DATA);
 
-  const handleNewInstall = () => {
-    window.electron.showDialog();
+  const handleNewInstall = async () => {
+    const files: DialogFileData = await window.electron.showDialog();
+    console.log('user files', files);
+    // Got files? Didn't cancel? Actually selected stuff?
+    if (files && !files.cancelled && files.filePaths.length > 0) {
+      const newInstalls: InstallData[] = files.filePaths.map((filePath) => ({
+        path: filePath,
+        // @TODO: Detect version
+        version: '2.0',
+        // @TODO: Detect user platform
+        tags: ['MacOS'],
+      }));
+      setInstalls((prevInstalls) => [...prevInstalls, ...newInstalls]);
+    }
   };
 
   const buttons = (
@@ -56,3 +68,5 @@ export const Installs = (): JSX.Element => {
     </TabPanelLayout>
   );
 };
+
+export default Installs;
