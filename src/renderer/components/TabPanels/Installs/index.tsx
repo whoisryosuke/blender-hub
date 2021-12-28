@@ -1,26 +1,14 @@
-import React, { useState } from "react";
-import { TabPanelLayout } from "../TabPanelLayout";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { InstallsTable } from "./InstallsTable";
-
-export const TAGS = {
-  Android: "Android",
-  MacOS: "MacOS",
-  Windows: "Windows",
-};
-export type TagsEnum = keyof typeof TAGS;
-
-export type InstallData = {
-  version: string;
-  path: string;
-  tags: TagsEnum[];
-};
+import React, { useState } from 'react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { InstallData } from 'renderer/common/types';
+import { TabPanelLayout } from '../TabPanelLayout';
+import { InstallsTable } from './InstallsTable';
 
 const SAMPLE_DATA: InstallData[] = [
   {
-    version: "2.0",
-    path: "C:/Blender/Blender.exe",
-    tags: ["MacOS"],
+    version: '2.0',
+    path: 'C:/Blender/Blender.exe',
+    tags: ['MacOS'],
   },
 ];
 

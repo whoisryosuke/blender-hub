@@ -1,11 +1,11 @@
-import React from "react";
-import { Box, Flex, Heading, Text, HStack, VStack } from "@chakra-ui/react";
-import { Tag } from "../../Tag";
-import { InstallData } from "./";
+import React from 'react';
+import { Box, Flex, Heading, Text, HStack, VStack } from '@chakra-ui/react';
+import { InstallData } from 'renderer/common/types';
+import Tag from 'renderer/components/Tag';
 
 type Props = InstallData;
 
-const CARD_PADDING = "3";
+const CARD_PADDING = '3';
 
 export const InstallCard = ({ version, path, tags }: Props) => {
   return (
@@ -30,3 +30,5 @@ export const InstallCard = ({ version, path, tags }: Props) => {
     </Flex>
   );
 };
+
+export default InstallCard;

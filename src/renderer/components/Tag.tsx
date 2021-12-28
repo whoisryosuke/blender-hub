@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Text } from "@chakra-ui/react";
+import React from 'react';
+import { Box, Text } from '@chakra-ui/react';
 
 interface Props {
   title: string;
@@ -12,3 +12,5 @@ export const Tag = ({ title }: Props) => {
     </Box>
   );
 };
+
+export default Tag;

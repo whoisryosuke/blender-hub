@@ -1,12 +1,12 @@
-import React from "react";
-import { VStack } from "@chakra-ui/react";
-import { InstallCard } from "./InstallCard";
-import { InstallData } from "./";
+import React from 'react';
+import { VStack } from '@chakra-ui/react';
+import { InstallCard } from './InstallCard';
+import { InstallData } from 'renderer/common/types';
 
 const INSTALL_FILTERS = {
-  all: "all",
-  official: "official",
-  "pre-releases": "pre-releases",
+  all: 'all',
+  official: 'official',
+  'pre-releases': 'pre-releases',
 };
 export type InstallFilters = keyof typeof INSTALL_FILTERS;
 
