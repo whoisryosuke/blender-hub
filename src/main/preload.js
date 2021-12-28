@@ -1,6 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
+  showDialog: async () => ipcRenderer.invoke('dialog:open'),
   ipcRenderer: {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
