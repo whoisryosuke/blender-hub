@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import {
+  Button,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from '@chakra-ui/react';
 import { InstallData } from 'renderer/common/types';
 import { TabPanelLayout } from '../TabPanelLayout';
 import { InstallsTable } from './InstallsTable';
@@ -15,8 +22,18 @@ const SAMPLE_DATA: InstallData[] = [
 export const Installs = (): JSX.Element => {
   const [installs, setInstalls] = useState<InstallData[]>(SAMPLE_DATA);
 
+  const handleNewInstall = () => {
+    window.electron.showDialog();
+  };
+
+  const buttons = (
+    <>
+      <Button onClick={handleNewInstall}>Add Install</Button>
+    </>
+  );
+
   return (
-    <TabPanelLayout title="Installs">
+    <TabPanelLayout title="Installs" buttons={buttons}>
       <Tabs>
         <TabList>
           <Tab>All</Tab>
