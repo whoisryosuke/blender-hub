@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex, Heading, Text, HStack, VStack } from '@chakra-ui/react';
 import { InstallData } from 'renderer/common/types';
-import Tag from 'renderer/components/Tag';
+import { Tag } from 'renderer/components/Tag';
 
 type Props = InstallData;
 
@@ -19,7 +19,7 @@ export const InstallCard = ({ version, path, tags }: Props) => {
           {path}
         </Text>
         <HStack>
-          {tags.map((tag) => (
+          {tags?.map((tag) => (
             <Tag title={tag} />
           ))}
         </HStack>

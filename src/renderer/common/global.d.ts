@@ -9,6 +9,7 @@ declare global {
   interface Window {
     electron: {
       showDialog: () => Promise<DialogFileData>;
+      blenderVersion: (blenderFile: string) => Promise<string>;
     };
   }
 }

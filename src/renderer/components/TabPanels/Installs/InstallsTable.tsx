@@ -1,7 +1,7 @@
 import React from 'react';
 import { VStack } from '@chakra-ui/react';
-import { InstallCard } from './InstallCard';
 import { InstallData } from 'renderer/common/types';
+import { InstallCard } from './InstallCard';
 
 const INSTALL_FILTERS = {
   all: 'all',

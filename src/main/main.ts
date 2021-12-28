@@ -14,6 +14,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { execSync } from 'child_process';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -40,6 +41,31 @@ ipcMain.on('ipc-example', async (event, arg) => {
 
 ipcMain.handle('dialog:open', async (_, args) => {
   const result = await dialog.showOpenDialog({ properties: ['openFile'] });
+  return result;
+});
+
+/**
+ * Blender CLI works with .exe, but needs changing for .app
+ * @see: https://docs.blender.org/manual/en/latest/advanced/command_line/launch/macos.html
+ */
+const checkMacBlender = (blenderPath: string) => {
+  let newPath = blenderPath;
+  if (blenderPath.includes('.app')) {
+    newPath = `${newPath}/Contents/MacOS/Blender`;
+  }
+  return newPath;
+};
+
+ipcMain.handle('blender:version', async (_, args) => {
+  console.log('running cli', _, args);
+  let result;
+  if (args) {
+    const blenderExecutable = checkMacBlender(args);
+    // If MacOS, we need to change path to make executable
+    const checkVersionCommand = `${blenderExecutable} -v`;
+
+    result = execSync(checkVersionCommand).toString();
+  }
   return result;
 });
 
