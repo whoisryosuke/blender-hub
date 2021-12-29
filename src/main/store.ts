@@ -29,19 +29,6 @@ const schema: JSONSchemaType<SchemaType> = {
   required: ['installs'],
 };
 
-// const schema = {
-//   foo: {
-//     type: 'number',
-//     maximum: 100,
-//     minimum: 1,
-//     default: 50,
-//   },
-//   bar: {
-//     type: 'string',
-//     format: 'url',
-//   },
-// };
-
 export const STORE_KEYS: { [key: string]: keyof SchemaType } = {
   INSTALLS: 'installs',
   // PREFERENCES: 'preferences',
