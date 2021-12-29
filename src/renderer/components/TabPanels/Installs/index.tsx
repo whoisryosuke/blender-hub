@@ -8,6 +8,7 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 import { DialogFileData, InstallData } from 'renderer/common/types';
+import { useInstallValue } from 'renderer/context/InstallContext';
 import { TabPanelLayout } from '../TabPanelLayout';
 import { InstallsTable } from './InstallsTable';
 
@@ -73,8 +74,7 @@ const getVersion = async (blenderFile: string): Promise<VersionData> => {
 };
 
 export const Installs = (): JSX.Element => {
-  const [installs, setInstalls] = useState<InstallData[]>(SAMPLE_DATA);
-
+  const { installs, setInstalls } = useInstallValue();
   /**
    * Opens file dialog, checks each file for Blender version data
    * then adds each valid install to state
@@ -101,7 +101,8 @@ export const Installs = (): JSX.Element => {
         }
       );
       const newInstalls = await Promise.all(createInstalls);
-      setInstalls((prevInstalls) => [...prevInstalls, ...newInstalls]);
+      if (setInstalls)
+        setInstalls((prevInstalls) => [...prevInstalls, ...newInstalls]);
     }
   };
 
