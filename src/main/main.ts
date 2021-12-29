@@ -15,8 +15,10 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { execSync } from 'child_process';
+import { InstallData } from 'renderer/common/types';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import store, { STORE_KEYS } from './store';
 
 export default class AppUpdater {
   constructor() {
@@ -40,6 +42,13 @@ ipcMain.on('ipc-example', async (event, arg) => {
 });
 
 ipcMain.handle('dialog:open', async (_, args) => {
+  const result = await dialog.showOpenDialog({ properties: ['openFile'] });
+  return result;
+});
+
+ipcMain.handle('store:installs', async (_, newInstall: InstallData) => {
+  const prevInstalls = store.get(STORE_KEYS.INSTALLS);
+  store.set(STORE_KEYS.INSTALLS, [...prevInstalls, newInstall]);
   const result = await dialog.showOpenDialog({ properties: ['openFile'] });
   return result;
 });
