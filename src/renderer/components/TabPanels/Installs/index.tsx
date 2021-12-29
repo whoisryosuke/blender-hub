@@ -75,6 +75,10 @@ const getVersion = async (blenderFile: string): Promise<VersionData> => {
 export const Installs = (): JSX.Element => {
   const [installs, setInstalls] = useState<InstallData[]>(SAMPLE_DATA);
 
+  /**
+   * Opens file dialog, checks each file for Blender version data
+   * then adds each valid install to state
+   */
   const handleNewInstall = async () => {
     console.log('window', window.electron);
     const files: DialogFileData = await window.electron.showDialog();
