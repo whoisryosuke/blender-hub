@@ -6,27 +6,23 @@ export type SchemaType = {
   installs: InstallData[];
 };
 
-const schema: JSONSchemaType<SchemaType> = {
-  type: 'object',
-  properties: {
-    installs: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          version: { type: 'string' },
-          path: { type: 'string' },
-          type: { type: 'string' },
-          tags: {
-            type: 'array',
-            items: { type: 'string' },
-          },
+const schema = {
+  installs: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        version: { type: 'string' },
+        path: { type: 'string' },
+        type: { type: 'string' },
+        tags: {
+          type: 'array',
+          items: { type: 'string' },
         },
-        required: ['path', 'tags', 'type', 'version'],
       },
+      required: ['path', 'tags', 'type', 'version'],
     },
   },
-  required: ['installs'],
 };
 
 export const STORE_KEYS: { [key: string]: keyof SchemaType } = {
