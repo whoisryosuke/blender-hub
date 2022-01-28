@@ -38,3 +38,22 @@ export type DialogFileData = {
    */
   filePaths: string[];
 };
+
+export type ProjectData = {
+  /**
+   * The name of the file without extension
+   */
+  filename: string;
+  /**
+   * Path to folder on local drive or web
+   */
+  path: string;
+  /**
+   * Date user last opened file
+   */
+  last_modified: Date;
+  /**
+   * Additional CLI arguments to add when opening file
+   */
+  cli: string;
+};
