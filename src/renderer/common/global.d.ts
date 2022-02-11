@@ -10,6 +10,7 @@ declare global {
     electron: {
       showDialog: () => Promise<DialogFileData>;
       blenderVersion: (blenderFile: string) => Promise<string>;
+      blenderOpen: (filePath: string, blenderFile: string) => Promise<string>;
     };
   }
 }

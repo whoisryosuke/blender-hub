@@ -14,22 +14,18 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useInstallValue } from 'renderer/context/InstallContext';
+import { ProjectsTableRow } from './ProjectsTableRow';
 
 type Props = {
   projects: ProjectData[];
 };
 
-const SmallText = ({ children }) => (
-  <Text fontSize="sm" color="gray.500">
-    {children}
-  </Text>
-);
-
 const ProjectsTable = ({ projects }: Props) => {
   const { installs } = useInstallValue();
 
-  const openProject = (project: ProjectData) => {
-    console.log('opening project', project);
+  const openProject = (projectPath: string, blenderPath: string) => {
+    console.log('opening project', projectPath, blenderPath);
+    window.electron.blenderOpen(projectPath, blenderPath);
   };
 
   console.log('projects', projects);
@@ -44,30 +40,11 @@ const ProjectsTable = ({ projects }: Props) => {
       </Thead>
       <Tbody>
         {projects.map((project) => (
-          <Tr
-            _hover={{
-              backgroundColor: 'gray.700',
-              cursor: 'pointer',
-            }}
-            onClick={() => openProject(project)}
-          >
-            <Td>
-              <Stack>
-                <Text fontWeight="bold">{project.filename}</Text>
-                <SmallText>{project.path}</SmallText>
-              </Stack>
-            </Td>
-            <Td>
-              <SmallText>{project.last_modified.toDateString()}</SmallText>
-            </Td>
-            <Td>
-              <Select>
-                {installs.map((install) => (
-                  <option value={install.path}>{install.version}</option>
-                ))}
-              </Select>
-            </Td>
-          </Tr>
+          <ProjectsTableRow
+            project={project}
+            installs={installs}
+            openProject={openProject}
+          />
         ))}
       </Tbody>
     </Table>

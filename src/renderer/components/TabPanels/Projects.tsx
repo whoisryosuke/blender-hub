@@ -18,8 +18,14 @@ import { TabPanelLayout } from './TabPanelLayout';
 
 const SAMPLE_PROJECTS: ProjectData[] = [
   {
-    filename: 'Test project',
+    filename: 'Test project.blend',
     path: '/Users/sleonhart/Projects/',
+    last_modified: new Date(),
+    cli: '',
+  },
+  {
+    filename: 'Test.blend',
+    path: '/Users/ryo/Downloads/',
     last_modified: new Date(),
     cli: '',
   },

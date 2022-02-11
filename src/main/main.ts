@@ -78,6 +78,19 @@ ipcMain.handle('blender:version', async (_, args) => {
   return result;
 });
 
+ipcMain.handle('blender:open', async (_, filePath, blenderPath) => {
+  console.log('running blender open', _, filePath, blenderPath);
+  let result;
+  if (filePath && blenderPath) {
+    const blenderExecutable = checkMacBlender(blenderPath);
+    // If MacOS, we need to change path to make executable
+    const openFileCommand = `${blenderExecutable} ${filePath}`;
+
+    result = execSync(openFileCommand).toString();
+  }
+  return result;
+});
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();

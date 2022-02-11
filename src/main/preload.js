@@ -4,6 +4,8 @@ contextBridge.exposeInMainWorld('electron', {
   showDialog: async () => ipcRenderer.invoke('dialog:open'),
   blenderVersion: async (blenderPath) =>
     ipcRenderer.invoke('blender:version', blenderPath),
+  blenderOpen: async (filePath, blenderPath) =>
+    ipcRenderer.invoke('blender:open', filePath, blenderPath),
   ipcRenderer: {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
