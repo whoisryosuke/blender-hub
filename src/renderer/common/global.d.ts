@@ -11,6 +11,7 @@ declare global {
       showDialog: () => Promise<DialogFileData>;
       blenderVersion: (blenderFile: string) => Promise<string>;
       blenderOpen: (filePath: string, blenderFile: string) => Promise<string>;
+      fileOpen: (filePath: string) => Promise<string>;
     };
   }
 }

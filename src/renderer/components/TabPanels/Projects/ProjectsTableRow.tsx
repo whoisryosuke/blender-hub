@@ -1,11 +1,14 @@
-import { Tr, Td, Stack, Select, Text } from '@chakra-ui/react';
+import { HStack, Tr, Td, Stack, Select, Text } from '@chakra-ui/react';
 import { InstallData, ProjectData } from 'renderer/common/types';
 import React, { useState } from 'react';
+import ProjectsTableRowDropdown from './ProjectsTableRowDropdown';
 
 type Props = {
   project: ProjectData;
   installs: InstallData[];
+  id: number;
   openProject: any;
+  deleteProject: any;
 };
 
 const SmallText = ({ children }) => (
@@ -14,7 +17,13 @@ const SmallText = ({ children }) => (
   </Text>
 );
 
-export const ProjectsTableRow = ({ installs, project, openProject }: Props) => {
+export const ProjectsTableRow = ({
+  installs,
+  project,
+  openProject,
+  deleteProject,
+  id,
+}: Props) => {
   const [selectedInstall, setSelectedInstall] = useState(
     installs[0].path ?? ''
   );
@@ -26,6 +35,8 @@ export const ProjectsTableRow = ({ installs, project, openProject }: Props) => {
   const removeExtension = (projectPath: string) => {
     return projectPath.replace('.blend', '');
   };
+
+  const fullFilePath = `${project.path}${project.filename}`;
   return (
     <Tr
       _hover={{
@@ -33,11 +44,7 @@ export const ProjectsTableRow = ({ installs, project, openProject }: Props) => {
         cursor: 'pointer',
       }}
     >
-      <Td
-        onClick={() =>
-          openProject(`${project.path}${project.filename}`, selectedInstall)
-        }
-      >
+      <Td onClick={() => openProject(fullFilePath, selectedInstall)}>
         <Stack>
           <Text fontWeight="bold">{removeExtension(project.filename)}</Text>
           <SmallText>{project.path}</SmallText>
@@ -47,11 +54,18 @@ export const ProjectsTableRow = ({ installs, project, openProject }: Props) => {
         <SmallText>{project.last_modified.toDateString()}</SmallText>
       </Td>
       <Td>
-        <Select value={selectedInstall} onChange={handleSelectInstall}>
-          {installs.map((install) => (
-            <option value={install.path}>{install.version}</option>
-          ))}
-        </Select>
+        <HStack gap={2}>
+          <Select value={selectedInstall} onChange={handleSelectInstall}>
+            {installs.map((install) => (
+              <option value={install.path}>{install.version}</option>
+            ))}
+          </Select>
+          <ProjectsTableRowDropdown
+            id={id}
+            filePath={fullFilePath}
+            deleteProject={deleteProject}
+          />
+        </HStack>
       </Td>
     </Tr>
   );

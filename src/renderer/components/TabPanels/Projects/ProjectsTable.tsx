@@ -18,9 +18,10 @@ import { ProjectsTableRow } from './ProjectsTableRow';
 
 type Props = {
   projects: ProjectData[];
+  deleteProject: any;
 };
 
-const ProjectsTable = ({ projects }: Props) => {
+const ProjectsTable = ({ projects, deleteProject }: Props) => {
   const { installs } = useInstallValue();
 
   const openProject = (projectPath: string, blenderPath: string) => {
@@ -39,11 +40,13 @@ const ProjectsTable = ({ projects }: Props) => {
         </Tr>
       </Thead>
       <Tbody>
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <ProjectsTableRow
+            id={index}
             project={project}
             installs={installs}
             openProject={openProject}
+            deleteProject={deleteProject}
           />
         ))}
       </Tbody>

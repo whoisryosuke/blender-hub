@@ -91,6 +91,17 @@ ipcMain.handle('blender:open', async (_, filePath, blenderPath) => {
   return result;
 });
 
+// File Explorer
+ipcMain.handle('file:open', async (_, filePath) => {
+  console.log('running folder open', _, filePath);
+  let result;
+  if (filePath) {
+    // @TODO: maybe try/catch?
+    shell.showItemInFolder(filePath);
+  }
+  return true;
+});
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();

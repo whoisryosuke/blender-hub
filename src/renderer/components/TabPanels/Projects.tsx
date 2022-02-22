@@ -36,6 +36,13 @@ interface Props {}
 export const Projects = (props: Props) => {
   const [projects, setProjects] = useState<ProjectData[]>(SAMPLE_PROJECTS);
 
+  const deleteProject = (projectId: number) => {
+    setProjects((prevProjects) =>
+      prevProjects.filter((_, id) => id !== projectId)
+    );
+    // @TODO: Sync with electron-store
+  };
+
   return (
     <TabPanelLayout
       title="Projects"
@@ -72,7 +79,7 @@ export const Projects = (props: Props) => {
           </InputGroup>
         </Flex>
 
-        <ProjectsTable projects={projects} />
+        <ProjectsTable projects={projects} deleteProject={deleteProject} />
       </Stack>
     </TabPanelLayout>
   );
