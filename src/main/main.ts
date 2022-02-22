@@ -15,7 +15,7 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { execSync } from 'child_process';
-import { InstallData } from 'renderer/common/types';
+import { InstallData, ProjectData } from 'renderer/common/types';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import store, { STORE_KEYS } from './store';
@@ -51,6 +51,11 @@ ipcMain.handle('store:installs', async (_, newInstall: InstallData) => {
   store.set(STORE_KEYS.INSTALLS, [...prevInstalls, newInstall]);
   const result = await dialog.showOpenDialog({ properties: ['openFile'] });
   return result;
+});
+
+ipcMain.handle('store:projects', async (_, newInstall: ProjectData) => {
+  const prevInstalls = store.get(STORE_KEYS.PROJECTS);
+  store.set(STORE_KEYS.PROJECZTS, [...prevInstalls, newInstall]);
 });
 
 /**

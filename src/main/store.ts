@@ -1,9 +1,10 @@
 import Store from 'electron-store';
 import { JSONSchemaType } from 'ajv';
-import { InstallData } from 'renderer/common/types';
+import { InstallData, ProjectData } from 'renderer/common/types';
 
 export type SchemaType = {
   installs: InstallData[];
+  projects: ProjectData[];
 };
 
 const schema = {
@@ -23,12 +24,25 @@ const schema = {
       required: ['path', 'tags', 'type', 'version'],
     },
   },
+  projects: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        filename: { type: 'string' },
+        path: { type: 'string' },
+        last_modified: { type: 'date' },
+        cli: { type: 'string' },
+      },
+      required: ['filename', 'tags', 'last_modified', 'cli'],
+    },
+  },
 };
 
 export const STORE_KEYS: { [key: string]: keyof SchemaType } = {
   INSTALLS: 'installs',
   // PREFERENCES: 'preferences',
-  // PROJECTS: 'projects',
+  PROJECTS: 'projects',
 };
 
 // Not sure why this isn't accepting. But get/set methods return proper types so...

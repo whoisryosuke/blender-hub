@@ -43,13 +43,42 @@ export const Projects = (props: Props) => {
     // @TODO: Sync with electron-store
   };
 
+  const openProject = async () => {
+    const newProjectPaths = await window.electron.showDialog();
+    console.log('new project', newProjectPaths);
+    if (!newProjectPaths.cancelled) {
+      // Loop through each file
+      const newProjects = new Array<ProjectData>();
+      newProjectPaths.filePaths.forEach((newFilePath) => {
+        // Check if it's even a Blender file
+        if (newFilePath.includes('.blend')) {
+          const filename = newFilePath.replace(/^.*[\\\/]/, '');
+          const newProjectData: ProjectData = {
+            filename,
+            path: newFilePath.replace(filename, ''),
+            last_modified: new Date(),
+            cli: '',
+          };
+          newProjects.push(newProjectData);
+        }
+      });
+      if (newProjects.length > 0) {
+        setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+      }
+    }
+  };
+
   return (
     <TabPanelLayout
       title="Projects"
       buttons={
         <>
           <Flex>
-            <Button borderRightRadius={0} paddingRight={6}>
+            <Button
+              borderRightRadius={0}
+              paddingRight={6}
+              onClick={openProject}
+            >
               Open
             </Button>
             <Menu>
@@ -60,7 +89,7 @@ export const Projects = (props: Props) => {
                 paddingLeft={2}
               />
               <MenuList>
-                <MenuItem>Add project from disk</MenuItem>
+                <MenuItem onClick={openProject}>Add project from disk</MenuItem>
                 <MenuItem>Add remote project</MenuItem>
               </MenuList>
             </Menu>
