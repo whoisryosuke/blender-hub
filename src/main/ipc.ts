@@ -33,6 +33,7 @@ const init = () => {
   });
 
   /**
+   * Converts Blender file path to Mac-friendly executable
    * Blender CLI works with .exe, but needs changing for .app
    * @see: https://docs.blender.org/manual/en/latest/advanced/command_line/launch/macos.html
    */
@@ -63,7 +64,7 @@ const init = () => {
     if (filePath && blenderPath) {
       const blenderExecutable = checkMacBlender(blenderPath);
       // If MacOS, we need to change path to make executable
-      const openFileCommand = `${blenderExecutable} ${filePath}`;
+      const openFileCommand = `"${blenderExecutable}" ${filePath}`;
 
       result = execSync(openFileCommand).toString();
     }
