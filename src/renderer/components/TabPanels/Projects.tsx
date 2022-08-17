@@ -31,10 +31,11 @@ const SAMPLE_PROJECTS: ProjectData[] = [
   },
 ];
 
-interface Props {}
+type Props = any;
 
 export const Projects = (props: Props) => {
   const [projects, setProjects] = useState<ProjectData[]>(SAMPLE_PROJECTS);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const deleteProject = (projectId: number) => {
     setProjects((prevProjects) =>
@@ -52,7 +53,7 @@ export const Projects = (props: Props) => {
       newProjectPaths.filePaths.forEach((newFilePath) => {
         // Check if it's even a Blender file
         if (newFilePath.includes('.blend')) {
-          const filename = newFilePath.replace(/^.*[\\\/]/, '');
+          const filename = newFilePath.replace(/^.*[\\/]/, '');
           const newProjectData: ProjectData = {
             filename,
             path: newFilePath.replace(filename, ''),
@@ -67,6 +68,14 @@ export const Projects = (props: Props) => {
       }
     }
   };
+
+  const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
+    setSearchTerm(e.currentTarget.value);
+  };
+
+  const filteredProjects = projects.filter((project) =>
+    project.filename.includes(searchTerm)
+  );
 
   return (
     <TabPanelLayout
@@ -104,11 +113,18 @@ export const Projects = (props: Props) => {
             <InputLeftElement pointerEvents="none" color="gray.300">
               <MdSearch />
             </InputLeftElement>
-            <Input placeholder="Search projects..." />
+            <Input
+              placeholder="Search projects..."
+              value={searchTerm}
+              onChange={handleSearch}
+            />
           </InputGroup>
         </Flex>
 
-        <ProjectsTable projects={projects} deleteProject={deleteProject} />
+        <ProjectsTable
+          projects={filteredProjects}
+          deleteProject={deleteProject}
+        />
       </Stack>
     </TabPanelLayout>
   );
