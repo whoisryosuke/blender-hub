@@ -42,6 +42,7 @@ const ProjectsTable = ({ projects, deleteProject }: Props) => {
       <Tbody>
         {projects.map((project, index) => (
           <ProjectsTableRow
+            key={project.filename}
             id={index}
             project={project}
             installs={installs}

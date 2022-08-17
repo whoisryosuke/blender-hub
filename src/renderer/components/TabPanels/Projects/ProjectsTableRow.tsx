@@ -1,7 +1,15 @@
 import { HStack, Tr, Td, Stack, Select, Text } from '@chakra-ui/react';
 import { InstallData, ProjectData } from 'renderer/common/types';
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import ProjectsTableRowDropdown from './ProjectsTableRowDropdown';
+
+type SmallTextProps = any;
+
+const SmallText = ({ children }: PropsWithChildren<SmallTextProps>) => (
+  <Text fontSize="sm" color="gray.500">
+    {children}
+  </Text>
+);
 
 type Props = {
   project: ProjectData;
@@ -10,12 +18,6 @@ type Props = {
   openProject: any;
   deleteProject: any;
 };
-
-const SmallText = ({ children }) => (
-  <Text fontSize="sm" color="gray.500">
-    {children}
-  </Text>
-);
 
 export const ProjectsTableRow = ({
   installs,
@@ -57,7 +59,9 @@ export const ProjectsTableRow = ({
         <HStack gap={2}>
           <Select value={selectedInstall} onChange={handleSelectInstall}>
             {installs.map((install) => (
-              <option value={install.path}>{install.version}</option>
+              <option key={install.path} value={install.path}>
+                {install.version}
+              </option>
             ))}
           </Select>
           <ProjectsTableRowDropdown
