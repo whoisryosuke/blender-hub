@@ -31,7 +31,7 @@ const schema = {
       properties: {
         filename: { type: 'string' },
         path: { type: 'string' },
-        last_modified: { type: 'date' },
+        last_modified: { type: 'string' },
         cli: { type: 'string' },
       },
       required: ['filename', 'tags', 'last_modified', 'cli'],
