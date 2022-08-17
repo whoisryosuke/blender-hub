@@ -30,7 +30,7 @@ export const InstallCard = ({ version, path, tags }: Props) => {
         </Text>
         <HStack>
           {tags?.map((tag) => (
-            <Tag title={tag} />
+            <Tag key={tag} title={tag} />
           ))}
         </HStack>
       </VStack>

@@ -19,7 +19,7 @@ export const InstallsTable = ({ filter, installs }: Props) => {
   return (
     <VStack>
       {installs.map((install) => (
-        <InstallCard {...install} />
+        <InstallCard key={install.path} {...install} />
       ))}
     </VStack>
   );
