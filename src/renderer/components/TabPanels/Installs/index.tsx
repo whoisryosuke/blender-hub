@@ -74,7 +74,7 @@ const getVersion = async (blenderFile: string): Promise<VersionData> => {
 };
 
 export const Installs = (): JSX.Element => {
-  const { installs, setInstalls } = useInstallValue();
+  const { installs, addInstalls } = useInstallValue();
   /**
    * Opens file dialog, checks each file for Blender version data
    * then adds each valid install to state
@@ -101,8 +101,7 @@ export const Installs = (): JSX.Element => {
         }
       );
       const newInstalls = await Promise.all(createInstalls);
-      if (setInstalls)
-        setInstalls((prevInstalls) => [...prevInstalls, ...newInstalls]);
+      if (addInstalls) addInstalls(newInstalls);
     }
   };
 

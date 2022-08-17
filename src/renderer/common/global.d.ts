@@ -1,4 +1,4 @@
-import { DialogFileData } from './types';
+import { DialogFileData, InstallData } from './types';
 
 declare global {
   /**
@@ -12,6 +12,8 @@ declare global {
       blenderVersion: (blenderFile: string) => Promise<string>;
       blenderOpen: (filePath: string, blenderFile: string) => Promise<string>;
       fileOpen: (filePath: string) => Promise<string>;
+      getInstalls: () => Promise<InstallData[]>;
+      addInstalls: (newInstalls: InstallData[]) => Promise<void>;
     };
   }
 }

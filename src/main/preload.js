@@ -6,8 +6,8 @@ contextBridge.exposeInMainWorld('electron', {
     ipcRenderer.invoke('blender:version', blenderPath),
   blenderOpen: async (filePath, blenderPath) =>
     ipcRenderer.invoke('blender:open', filePath, blenderPath),
-  storeProject: async (project) =>
-    ipcRenderer.invoke('store:projects', project),
+  addInstalls: async (project) => ipcRenderer.invoke('addInstalls', project),
+  getInstalls: async () => ipcRenderer.invoke('getInstalls'),
   fileOpen: async (filePath) => ipcRenderer.invoke('file:open', filePath),
   ipcRenderer: {
     myPing() {

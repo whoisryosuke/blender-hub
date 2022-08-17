@@ -27,7 +27,7 @@ export const ProjectsTableRow = ({
   id,
 }: Props) => {
   const [selectedInstall, setSelectedInstall] = useState(
-    installs[0].path ?? ''
+    installs?.[0]?.path ?? ''
   );
 
   const handleSelectInstall = (event: React.ChangeEvent<HTMLSelectElement>) => {

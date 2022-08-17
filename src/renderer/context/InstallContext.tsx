@@ -21,23 +21,38 @@ const SAMPLE_DATA: InstallData[] = [
 type InstallContextProps = {
   installs: InstallData[];
   setInstalls?: Dispatch<SetStateAction<InstallData[]>>;
-  addInstall?: (loginData: InstallData) => void;
+  addInstalls?: (newInstalls: InstallData[]) => void;
 };
 
 export const InstallContext = createContext<InstallContextProps>({
   installs: SAMPLE_DATA,
 });
 
-interface Props {}
+type Props = any;
 
 export const InstallProvider = ({ children }: PropsWithChildren<Props>) => {
-  const [installs, setInstalls] = useState<InstallData[]>(SAMPLE_DATA);
+  const [installs, setInstalls] = useState<InstallData[]>([]);
 
-  const addInstall = (loginData: InstallData) => {
-    setInstalls((prevInstall) => ({
-      ...prevInstall,
-      loggedIn: true,
-    }));
+  useEffect(() => {
+    const fetchStore = async () => {
+      // Get installs from backend store
+      const newInstalls = await window.electron.getInstalls();
+
+      console.log('[INSTALL PROVIDER] Synced with store', newInstalls);
+      if (!newInstalls) return;
+
+      // Sync store with state/provider
+      setInstalls(newInstalls);
+    };
+    fetchStore();
+  }, []);
+
+  const addInstalls = async (newInstalls: InstallData[]) => {
+    // Add to local state
+    setInstalls((prevInstall) => [...prevInstall, ...newInstalls]);
+
+    // Sync with store
+    await window.electron.addInstalls(newInstalls);
   };
 
   return (
@@ -45,7 +60,7 @@ export const InstallProvider = ({ children }: PropsWithChildren<Props>) => {
       value={{
         installs,
         setInstalls,
-        addInstall,
+        addInstalls,
       }}
     >
       {children}

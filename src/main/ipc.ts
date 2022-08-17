@@ -20,11 +20,16 @@ const init = () => {
     return result;
   });
 
-  ipcMain.handle('store:installs', async (_, newInstall: InstallData) => {
+  ipcMain.handle('addInstalls', async (_, newInstalls: InstallData[]) => {
     const prevInstalls = store.get(STORE_KEYS.INSTALLS);
-    store.set(STORE_KEYS.INSTALLS, [...prevInstalls, newInstall]);
-    const result = await dialog.showOpenDialog({ properties: ['openFile'] });
-    return result;
+    const installs = prevInstalls ?? [];
+    store.set(STORE_KEYS.INSTALLS, [...installs, ...newInstalls]);
+  });
+
+  ipcMain.handle('getInstalls', async () => {
+    const prevInstalls = store.get(STORE_KEYS.INSTALLS);
+    console.log('[STORE] Got installs', prevInstalls);
+    return prevInstalls;
   });
 
   ipcMain.handle('store:projects', async (_, newInstall: ProjectData) => {
