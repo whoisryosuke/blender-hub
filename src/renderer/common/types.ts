@@ -39,7 +39,7 @@ export type DialogFileData = {
   filePaths: string[];
 };
 
-export type ProjectData = {
+export type ProjectBaseData = {
   /**
    * The name of the file without extension
    */
@@ -49,11 +49,25 @@ export type ProjectData = {
    */
   path: string;
   /**
-   * Date user last opened file
-   */
-  last_modified: Date;
-  /**
    * Additional CLI arguments to add when opening file
    */
   cli: string;
+};
+
+export type ProjectBackendData = ProjectBaseData & {
+  /**
+   * Date user last opened file
+   * This is a stringified Date (aka `new Date().toString()`)
+   * Convert to Date
+   */
+  last_modified: string;
+};
+
+export type ProjectFrontendData = ProjectBaseData & {
+  /**
+   * Date user last opened file
+   * This is a stringified Date (aka `new Date().toString()`)
+   * Convert to Date
+   */
+  last_modified: Date;
 };

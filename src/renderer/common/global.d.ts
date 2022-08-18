@@ -1,4 +1,4 @@
-import { DialogFileData, InstallData } from './types';
+import { DialogFileData, InstallData, ProjectBackendData } from './types';
 
 declare global {
   /**
@@ -14,6 +14,8 @@ declare global {
       fileOpen: (filePath: string) => Promise<string>;
       getInstalls: () => Promise<InstallData[]>;
       addInstalls: (newInstalls: InstallData[]) => Promise<void>;
+      getProjects: () => Promise<ProjectBackendData[]>;
+      addProjects: (newInstalls: ProjectBackendData[]) => Promise<void>;
     };
   }
 }

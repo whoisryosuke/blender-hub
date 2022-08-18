@@ -10,14 +10,14 @@ import {
   MenuList,
   Stack,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdArrowDropDown, MdSearch } from 'react-icons/md';
-import { ProjectData } from 'renderer/common/types';
+import { ProjectFrontendData } from 'renderer/common/types';
 import { useInstallValue } from 'renderer/context/InstallContext';
 import ProjectsTable from './Projects/ProjectsTable';
 import { TabPanelLayout } from './TabPanelLayout';
 
-const SAMPLE_PROJECTS: ProjectData[] = [
+const SAMPLE_PROJECTS: ProjectFrontendData[] = [
   {
     filename: 'Test project.blend',
     path: '/Users/sleonhart/Projects/',
@@ -35,9 +35,30 @@ const SAMPLE_PROJECTS: ProjectData[] = [
 type Props = any;
 
 export const Projects = (props: Props) => {
-  const [projects, setProjects] = useState<ProjectData[]>(SAMPLE_PROJECTS);
+  const [projects, setProjects] = useState<ProjectFrontendData[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const { installs } = useInstallValue();
+
+  // On initial component mount, hydrate state with store data
+  useEffect(() => {
+    const fetchStore = async () => {
+      // Get installs from backend store
+      const newProjects = await window.electron.getProjects();
+
+      console.log('[PROJECTS] Synced with store', newProjects);
+      if (!newProjects) return;
+
+      // Backend doesn't support Dates so we gotta parse em back to life
+      const parsedProjects = newProjects.map((newProject) => ({
+        ...newProject,
+        last_modified: new Date(newProject.last_modified),
+      }));
+
+      // Sync store with state/provider
+      setProjects(parsedProjects);
+    };
+    fetchStore();
+  }, []);
 
   const deleteProject = (projectId: number) => {
     setProjects((prevProjects) =>
@@ -47,16 +68,19 @@ export const Projects = (props: Props) => {
   };
 
   const openProject = async () => {
+    // Open "open file" dialog
     const newProjectPaths = await window.electron.showDialog();
     console.log('new project', newProjectPaths);
+
     if (!newProjectPaths.cancelled) {
       // Loop through each file
-      const newProjects = new Array<ProjectData>();
+      const newProjects = new Array<ProjectFrontendData>();
       newProjectPaths.filePaths.forEach((newFilePath) => {
         // Check if it's even a Blender file
         if (newFilePath.includes('.blend')) {
+          // Generate new file
           const filename = newFilePath.replace(/^.*[\\/]/, '');
-          const newProjectData: ProjectData = {
+          const newProjectData: ProjectFrontendData = {
             filename,
             path: newFilePath.replace(filename, ''),
             last_modified: new Date(),
@@ -66,7 +90,16 @@ export const Projects = (props: Props) => {
         }
       });
       if (newProjects.length > 0) {
+        // Update app state
         setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+
+        // Update backend store
+        // Backend doesn't support Dates so we stringify them
+        const backendProjects = newProjects.map((newProject) => ({
+          ...newProject,
+          last_modified: newProject.last_modified.toString(),
+        }));
+        window.electron.addProjects(backendProjects);
       }
     }
   };
@@ -123,6 +156,10 @@ export const Projects = (props: Props) => {
                 paddingLeft={2}
               />
               <MenuList>
+                {!installs ||
+                  (installs.length <= 0 && (
+                    <MenuItem>Add a Blender install...</MenuItem>
+                  ))}
                 {installs.map((install) => (
                   <MenuItem
                     key={install.version}

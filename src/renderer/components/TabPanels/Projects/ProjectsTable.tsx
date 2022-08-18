@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectData } from 'renderer/common/types';
+import { ProjectFrontendData } from 'renderer/common/types';
 import {
   Table,
   Thead,
@@ -17,7 +17,7 @@ import { useInstallValue } from 'renderer/context/InstallContext';
 import { ProjectsTableRow } from './ProjectsTableRow';
 
 type Props = {
-  projects: ProjectData[];
+  projects: ProjectFrontendData[];
   deleteProject: any;
 };
 

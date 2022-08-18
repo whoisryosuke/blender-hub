@@ -1,5 +1,5 @@
 import { HStack, Tr, Td, Stack, Select, Text } from '@chakra-ui/react';
-import { InstallData, ProjectData } from 'renderer/common/types';
+import { InstallData, ProjectFrontendData } from 'renderer/common/types';
 import React, { PropsWithChildren, useState } from 'react';
 import ProjectsTableRowDropdown from './ProjectsTableRowDropdown';
 
@@ -12,7 +12,7 @@ const SmallText = ({ children }: PropsWithChildren<SmallTextProps>) => (
 );
 
 type Props = {
-  project: ProjectData;
+  project: ProjectFrontendData;
   installs: InstallData[];
   id: number;
   openProject: any;

@@ -1,5 +1,5 @@
 import { shell, ipcMain, dialog } from 'electron';
-import { InstallData, ProjectData } from 'renderer/common/types';
+import { InstallData, ProjectBackendData } from 'renderer/common/types';
 import { execSync } from 'child_process';
 import store, { STORE_KEYS } from './store';
 
@@ -32,10 +32,20 @@ const init = () => {
     return prevInstalls;
   });
 
-  ipcMain.handle('store:projects', async (_, newInstall: ProjectData) => {
-    const prevInstalls = store.get(STORE_KEYS.PROJECTS);
-    store.set(STORE_KEYS.PROJECZTS, [...prevInstalls, newInstall]);
+  ipcMain.handle('getProjects', async () => {
+    const prevProjects = store.get(STORE_KEYS.PROJECTS);
+    return prevProjects;
   });
+
+  ipcMain.handle(
+    'addProjects',
+    async (_, newProjects: ProjectBackendData[]) => {
+      const prevProjects = store.get(STORE_KEYS.PROJECTS);
+      const projects = prevProjects ?? [];
+      console.log('[STORE] Adding new projects', newProjects);
+      store.set(STORE_KEYS.PROJECTS, [...projects, ...newProjects]);
+    }
+  );
 
   /**
    * Converts Blender file path to Mac-friendly executable

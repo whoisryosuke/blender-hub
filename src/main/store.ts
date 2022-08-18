@@ -1,10 +1,10 @@
 import Store from 'electron-store';
 import { JSONSchemaType } from 'ajv';
-import { InstallData, ProjectData } from 'renderer/common/types';
+import { InstallData, ProjectBackendData } from 'renderer/common/types';
 
 export type SchemaType = {
   installs: InstallData[];
-  projects: ProjectData[];
+  projects: ProjectBackendData[];
 };
 
 const schema = {
@@ -34,7 +34,7 @@ const schema = {
         last_modified: { type: 'string' },
         cli: { type: 'string' },
       },
-      required: ['filename', 'tags', 'last_modified', 'cli'],
+      required: ['filename', 'path', 'last_modified', 'cli'],
     },
   },
 };

@@ -33,6 +33,7 @@ type Props = any;
 export const InstallProvider = ({ children }: PropsWithChildren<Props>) => {
   const [installs, setInstalls] = useState<InstallData[]>([]);
 
+  // On initial component mount, hydrate state with store data
   useEffect(() => {
     const fetchStore = async () => {
       // Get installs from backend store
