@@ -20,6 +20,7 @@ const init = () => {
     return result;
   });
 
+  // Store API (aka "localStorage"-style getter/setters)
   ipcMain.handle('addInstalls', async (_, newInstalls: InstallData[]) => {
     const prevInstalls = store.get(STORE_KEYS.INSTALLS);
     const installs = prevInstalls ?? [];
@@ -62,6 +63,7 @@ const init = () => {
     store.set(STORE_KEYS.PROJECTS, newProjects);
   });
 
+  // Blender specific tasks
   /**
    * Converts Blender file path to Mac-friendly executable
    * Blender CLI works with .exe, but needs changing for .app
