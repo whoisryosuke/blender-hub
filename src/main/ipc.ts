@@ -47,6 +47,9 @@ const init = () => {
     if (blenderPath.includes('.app')) {
       newPath = `${newPath}/Contents/MacOS/Blender`;
     }
+    if (blenderPath.includes('.exe')) {
+      newPath = newPath.replace('.exe.', '');
+    }
     return newPath;
   };
 
@@ -65,13 +68,20 @@ const init = () => {
 
   ipcMain.handle('blender:open', async (_, filePath, blenderPath) => {
     console.log('running blender open', _, filePath, blenderPath);
+    const isWindows = blenderPath.includes('.exe');
     let result;
     if (filePath && blenderPath) {
       const blenderExecutable = checkMacBlender(blenderPath);
       // If MacOS, we need to change path to make executable
-      const openFileCommand = `"${blenderExecutable}" ${filePath}`;
+      const openFileCommand = `"${blenderExecutable}" "${filePath}"`;
+      let platformFileCommand = `${openFileCommand}`;
+      // For Windows, Blender opens a shell window with debug console
+      // Because of this, we need to launch a new shell window and run commmand there
+      // Otherwise Node will try and run process and crash
+      if (isWindows)
+        platformFileCommand = `start cmd.exe /K "${openFileCommand}"`;
 
-      result = execSync(openFileCommand).toString();
+      result = execSync(platformFileCommand).toString();
     }
     return result;
   });
