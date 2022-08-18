@@ -13,6 +13,7 @@ import {
 import React, { useState } from 'react';
 import { MdArrowDropDown, MdSearch } from 'react-icons/md';
 import { ProjectData } from 'renderer/common/types';
+import { useInstallValue } from 'renderer/context/InstallContext';
 import ProjectsTable from './Projects/ProjectsTable';
 import { TabPanelLayout } from './TabPanelLayout';
 
@@ -36,6 +37,7 @@ type Props = any;
 export const Projects = (props: Props) => {
   const [projects, setProjects] = useState<ProjectData[]>(SAMPLE_PROJECTS);
   const [searchTerm, setSearchTerm] = useState('');
+  const { installs } = useInstallValue();
 
   const deleteProject = (projectId: number) => {
     setProjects((prevProjects) =>
@@ -69,8 +71,14 @@ export const Projects = (props: Props) => {
     }
   };
 
+  // Syncs input field with search state
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
     setSearchTerm(e.currentTarget.value);
+  };
+
+  //
+  const openBlenderVersion = (blenderPath: string) => {
+    window.electron.blenderOpen(blenderPath, '');
   };
 
   const filteredProjects = projects.filter((project) =>
@@ -103,7 +111,29 @@ export const Projects = (props: Props) => {
               </MenuList>
             </Menu>
           </Flex>
-          <Button>New Project</Button>
+          <Flex>
+            <Button borderRightRadius={0} paddingRight={6}>
+              New Project
+            </Button>
+            <Menu>
+              <MenuButton
+                as={Button}
+                rightIcon={<MdArrowDropDown />}
+                borderLeftRadius={0}
+                paddingLeft={2}
+              />
+              <MenuList>
+                {installs.map((install) => (
+                  <MenuItem
+                    key={install.version}
+                    onClick={() => openBlenderVersion(install.path)}
+                  >
+                    {install.version}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+          </Flex>
         </>
       }
     >
