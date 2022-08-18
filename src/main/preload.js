@@ -10,6 +10,8 @@ contextBridge.exposeInMainWorld('electron', {
   getInstalls: async () => ipcRenderer.invoke('getInstalls'),
   addProjects: async (projects) => ipcRenderer.invoke('addProjects', projects),
   getProjects: async () => ipcRenderer.invoke('getProjects'),
+  removeProject: async (projectIndex) =>
+    ipcRenderer.invoke('removeProject', projectIndex),
   fileOpen: async (filePath) => ipcRenderer.invoke('file:open', filePath),
   ipcRenderer: {
     myPing() {

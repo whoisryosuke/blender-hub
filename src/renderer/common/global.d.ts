@@ -16,6 +16,7 @@ declare global {
       addInstalls: (newInstalls: InstallData[]) => Promise<void>;
       getProjects: () => Promise<ProjectBackendData[]>;
       addProjects: (newInstalls: ProjectBackendData[]) => Promise<void>;
+      removeProject: (projectIndex: number) => Promise<void>;
     };
   }
 }

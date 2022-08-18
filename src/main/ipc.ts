@@ -47,6 +47,21 @@ const init = () => {
     }
   );
 
+  ipcMain.handle('removeProject', async (_, projectIndex: number) => {
+    const prevProjects = store.get(STORE_KEYS.PROJECTS) as ProjectBackendData[];
+    const projects = prevProjects ?? [];
+    console.log(
+      '[STORE] Removing project - prev projects',
+      projects,
+      prevProjects
+    );
+    const newProjects = projects.filter(
+      (__, id: number) => projectIndex !== id
+    );
+    console.log('[STORE] Removing project', projectIndex, newProjects);
+    store.set(STORE_KEYS.PROJECTS, newProjects);
+  });
+
   /**
    * Converts Blender file path to Mac-friendly executable
    * Blender CLI works with .exe, but needs changing for .app

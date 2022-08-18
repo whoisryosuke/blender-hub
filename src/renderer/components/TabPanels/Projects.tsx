@@ -64,7 +64,8 @@ export const Projects = (props: Props) => {
     setProjects((prevProjects) =>
       prevProjects.filter((_, id) => id !== projectId)
     );
-    // @TODO: Sync with electron-store
+    // Sync with backend store
+    window.electron.removeProject(projectId);
   };
 
   const openProject = async () => {
