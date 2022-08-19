@@ -12,8 +12,7 @@ import {
 import {
   MdSettings,
   MdSource,
-  MdWork,
-  MdFolder,
+  MdAllInbox,
   MdStorage,
   MdSdStorage,
   MdBook,
@@ -27,7 +26,12 @@ export const Sidebar = (): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box paddingTop="16" width={SIDEBAR_WIDTH}>
+      <Box
+        paddingTop="16"
+        width={SIDEBAR_WIDTH}
+        bg="blackAlpha.400"
+        minHeight="calc(100vh)"
+      >
         <Flex justifyContent="space-between">
           <div id="avatar-placeholder" />
           <IconButton
@@ -41,6 +45,8 @@ export const Sidebar = (): JSX.Element => {
         <TabList width={SIDEBAR_WIDTH}>
           <SidebarTab icon={<MdSource />} title="Projects" />
           <SidebarTab icon={<MdStorage />} title="Installs" />
+          {/* TODO: Change to `MdCached` when queue is running - and animate rotation */}
+          <SidebarTab icon={<MdAllInbox />} title="Render Queue" />
           <SidebarTab icon={<MdSdStorage />} title="Templates" />
           <SidebarTab icon={<MdBook />} title="Learn" />
         </TabList>

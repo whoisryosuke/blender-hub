@@ -6,6 +6,11 @@ module.exports = {
     'import/no-unresolved': 'error',
     // Since React 17 and typescript 4.1 you can safely disable the rule
     'react/react-in-jsx-scope': 'off',
+    // Define default props in constructor/initialization for FCs
+    // (e.g. `const Button = ({ propName = false })`)
+    'react/require-default-props': 'off',
+    // Convenient - prefer explicit props if you can tho
+    'react/jsx-props-no-spreading': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

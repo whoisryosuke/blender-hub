@@ -15,7 +15,9 @@ export const SidebarTab = ({
   return (
     <Tab display="flex" justifyContent="left">
       {icon}
-      <Text fontWeight={selected && 'bold'}>{title}</Text>
+      <Text fontWeight={selected ? 'bold' : 'normal'} ml={3}>
+        {title}
+      </Text>
     </Tab>
   );
 };
