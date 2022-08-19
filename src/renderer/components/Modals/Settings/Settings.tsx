@@ -9,6 +9,11 @@ import {
   ModalCloseButton,
   Button,
   Heading,
+  FormControl,
+  Switch,
+  FormLabel,
+  useColorMode,
+  Stack,
 } from '@chakra-ui/react';
 
 type Props = {
@@ -17,6 +22,8 @@ type Props = {
 };
 
 const SettingsModal = ({ isOpen, onClose }: Props) => {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const handleSave = () => {
     // Save to store using IPC
   };
@@ -28,7 +35,30 @@ const SettingsModal = ({ isOpen, onClose }: Props) => {
         <ModalHeader>Settings</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Heading size="sm">Project Defaults</Heading>
+          <Stack gap={1}>
+            {/* Apperance */}
+            <section>
+              <Heading size="sm" mb={2}>
+                Appearance
+              </Heading>
+
+              {/* Light/dark toggle */}
+              <FormControl display="flex">
+                <FormLabel flex={1} fontWeight="normal">
+                  Theme (Light / Dark)
+                </FormLabel>
+                <Switch
+                  isChecked={colorMode !== 'light'}
+                  onChange={toggleColorMode}
+                />
+              </FormControl>
+            </section>
+
+            {/* Project Defaults */}
+            <section>
+              <Heading size="sm">Project Defaults</Heading>
+            </section>
+          </Stack>
         </ModalBody>
 
         <ModalFooter>

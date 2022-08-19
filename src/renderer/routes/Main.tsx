@@ -9,8 +9,8 @@ import theme from '../theme/theme';
 export const Main = () => {
   return (
     <>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <Providers>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <Tabs>
           <Sidebar />
           <MainContent />
