@@ -1,13 +1,13 @@
 /**
  * Base webpack config used across other specific configs
  */
-/* eslint-disable */
-//@ts-nocheck
+
 import webpack from 'webpack';
 import webpackPaths from './webpack.paths';
+//@ts-ignore
 import { dependencies as externals } from '../../release/app/package.json';
 
-export default {
+const configuration: webpack.Configuration = {
   externals: [...Object.keys(externals || {})],
 
   stats: 'errors-only',
@@ -50,3 +50,5 @@ export default {
     }),
   ],
 };
+
+export default configuration;

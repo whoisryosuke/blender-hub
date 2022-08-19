@@ -1,12 +1,12 @@
-import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
-import Main from './routes/Main';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { Main } from './routes/Main';
 
 export default function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/" component={Main} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Main />} />
+      </Routes>
     </Router>
   );
 }
