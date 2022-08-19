@@ -21,7 +21,7 @@ type Props = {
   deleteProject: any;
 };
 
-const ProjectsTable = ({ projects, deleteProject }: Props) => {
+const ProjectsTable = ({ projects, deleteProject, ...props }: Props) => {
   const { installs } = useInstallValue();
 
   const openProject = (projectPath: string, blenderPath: string) => {
@@ -31,8 +31,14 @@ const ProjectsTable = ({ projects, deleteProject }: Props) => {
 
   console.log('projects', projects);
   return (
-    <Table variant="simple">
-      <Thead>
+    <Table variant="simple" {...props}>
+      <Thead
+        bg="blackAlpha.300"
+        // borderTop="1px solid"
+        // borderLeft="1px solid"
+        // borderRight="1px solid"
+        // borderColor="whiteAlpha.200"
+      >
         <Tr>
           <Th>Name</Th>
           <Th>Modified</Th>

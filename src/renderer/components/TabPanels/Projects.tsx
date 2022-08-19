@@ -175,7 +175,7 @@ export const Projects = (props: Props) => {
         </>
       }
     >
-      <Stack paddingTop={5}>
+      <Stack paddingTop={5} gap={3}>
         <Flex justifyContent="flex-end">
           <InputGroup maxWidth="350px">
             <InputLeftElement pointerEvents="none" color="gray.300">

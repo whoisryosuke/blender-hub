@@ -32,6 +32,8 @@ const ProjectsTableRowDropdown = ({ id, filePath, deleteProject }: Props) => {
         ...
       </MenuButton>
       <MenuList>
+        <MenuItem>Queue to render</MenuItem>
+        <Divider />
         <MenuItem onClick={revealFile}>Reveal in file explorer</MenuItem>
         <MenuItem>Add command line arguments</MenuItem>
         <Divider />

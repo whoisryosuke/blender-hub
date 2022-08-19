@@ -39,6 +39,10 @@ export const ProjectsTableRow = ({
   };
 
   const fullFilePath = `${project.path}${project.filename}`;
+  const cleanName = removeExtension(project.filename);
+  const currentInstall = installs.find(
+    (install) => install.path === selectedInstall
+  );
   return (
     <Tr
       _hover={{
@@ -46,9 +50,12 @@ export const ProjectsTableRow = ({
         cursor: 'pointer',
       }}
     >
-      <Td onClick={() => openProject(fullFilePath, selectedInstall)}>
+      <Td
+        onClick={() => openProject(fullFilePath, selectedInstall)}
+        title={`Open ${cleanName} in Blender ${currentInstall?.version}`}
+      >
         <Stack>
-          <Text fontWeight="bold">{removeExtension(project.filename)}</Text>
+          <Text fontWeight="bold">{cleanName}</Text>
           <SmallText>{project.path}</SmallText>
         </Stack>
       </Td>
